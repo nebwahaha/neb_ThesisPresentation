@@ -496,7 +496,7 @@ function setupImageModal() {
         'system-flowchart': ['sample.png'],
         'erd': ['sample.png'],
         'context-diagram': ['sample.png'],
-        'dfd-level0': ['sample.png'],
+        'dfd-level0': ['sample.png', 'sample.png'],
         'dfd-level1': ['sample.png'],
         'use-case': ['sample.png'],
         'sequence-diagram': ['sample.png'],
