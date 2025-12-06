@@ -71,6 +71,12 @@ function createLeftContent(section, index) {
             <p class="subtitle">${section.subtitle}</p>
             ${section.subtext ? `<p class="subtitle-small">${section.subtext}</p>` : ''}
         `;
+    } else if (section.content.isThankYouPage) {
+        // Thank you page - with floating animation
+        div.innerHTML = `
+            <h2 class="section-title thank-you-left">${section.title}</h2>
+        `;
+        div.classList.add('thank-you-left-container');
     } else {
         // Regular sections
         div.innerHTML = `
@@ -99,6 +105,17 @@ function createRightContent(section, index) {
             </div>
         `;
         div.classList.add('scroll-hint-container');
+    } else if (section.content.isThankYouPage) {
+        // Thank you page - only author name and thesis title
+        contentBox.innerHTML = `
+            <div class="thank-you-page">
+                <div class="thank-you-content-right">
+                    <p class="thank-you-author">${section.content.authorName}</p>
+                    <p class="thank-you-thesis">${section.content.thesisTitle}</p>
+                </div>
+            </div>
+        `;
+        div.classList.add('thank-you-page-container');
     } else {
         // Regular content
         let html = '';
@@ -109,6 +126,10 @@ function createRightContent(section, index) {
         
         if (section.content.text) {
             html += `<p>${section.content.text}</p>`;
+        }
+        
+        if (section.content.link) {
+            html += `<a href="${section.content.link.url}" target="_blank" class="content-link">${section.content.link.text}</a>`;
         }
         
         if (section.content.items && section.content.items.length > 0) {
@@ -157,6 +178,11 @@ function generateNavigation() {
     let currentMainSection = null;
 
     sections.forEach((section, index) => {
+        // Skip the thank you page in navigation
+        if (section.content.isThankYouPage) {
+            return;
+        }
+
         const li = document.createElement('li');
         const a = document.createElement('a');
         a.textContent = section.title;
@@ -422,6 +448,25 @@ function handleNavClick(e) {
     }
 }
 
+// ===== MOUSE TRACKING FOR THANK YOU PAGE =====
+function setupMouseTracking() {
+    document.addEventListener('mousemove', (e) => {
+        const thankYouContent = document.querySelector('.thank-you-content');
+        if (!thankYouContent) return;
+
+        // Get the center of the viewport
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        // Calculate distance from center
+        const distX = (e.clientX - centerX) * 0.05;
+        const distY = (e.clientY - centerY) * 0.05;
+
+        // Apply transform to follow cursor
+        thankYouContent.style.transform = `translate(${distX}px, ${distY}px)`;
+    });
+}
+
 // ===== EVENT LISTENERS SETUP =====
 function setupEventListeners() {
     // Menu
@@ -446,6 +491,9 @@ function setupEventListeners() {
 
     // Resize
     window.addEventListener('resize', handleResize);
+
+    // Mouse tracking for thank you page
+    setupMouseTracking();
 }
 
 // ===== UTILITY FUNCTIONS =====
