@@ -128,6 +128,19 @@ function createRightContent(section, index) {
             html += `<p>${section.content.text}</p>`;
         }
         
+        if (section.content.hasImage) {
+            html += `
+                <div class="image-placeholder-container">
+                    <div class="image-placeholder" data-section-id="${section.id}">
+                        <img src="sample.png" alt="Section image" class="placeholder-image" />
+                        <div class="placeholder-overlay">
+                            <p>Click to expand</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
         if (section.content.link) {
             html += `<a href="${section.content.link.url}" target="_blank" class="content-link">${section.content.link.text}</a>`;
         }
@@ -353,6 +366,13 @@ function updateChapterIndicator(currentSectionIndex) {
 
 // ===== EVENT HANDLERS =====
 function handleWheel(e) {
+    // Check if modal is open and image is zoomed
+    const modal = document.getElementById('imageModal');
+    if (modal && modal.classList.contains('active')) {
+        // Let the modal handle the wheel event, don't scroll main site
+        return;
+    }
+    
     if (DOM.navMenu.classList.contains('active')) return;
     
     e.preventDefault();
@@ -467,6 +487,214 @@ function setupMouseTracking() {
     });
 }
 
+// ===== IMAGE MODAL FUNCTIONS =====
+function setupImageModal() {
+    // Define images for each section (can have multiple images)
+    const sectionImages = {
+        'framework': ['sample.png'],
+        'system-architecture': ['sample.png'],
+        'system-flowchart': ['sample.png'],
+        'erd': ['sample.png'],
+        'context-diagram': ['sample.png'],
+        'dfd-level0': ['sample.png'],
+        'dfd-level1': ['sample.png'],
+        'use-case': ['sample.png'],
+        'sequence-diagram': ['sample.png'],
+        'class-diagram': ['sample.png'],
+        'activity-diagram': ['sample.png'],
+        'state-diagram': ['sample.png'],
+        'project-timetable': ['sample.png']
+    };
+    
+    // Create modal HTML
+    const modalHTML = `
+        <div id="imageModal" class="image-modal">
+            <div class="image-modal-content">
+                <button class="image-modal-close">&times;</button>
+                <div class="image-modal-controls">
+                    <button class="zoom-in-btn" title="Zoom In">+</button>
+                    <button class="zoom-out-btn" title="Zoom Out">−</button>
+                    <span class="zoom-level">100%</span>
+                    <div class="image-nav-controls">
+                        <button class="prev-image-btn" title="Previous Image">‹</button>
+                        <span class="image-counter">1 / 1</span>
+                        <button class="next-image-btn" title="Next Image">›</button>
+                    </div>
+                </div>
+                <div class="image-modal-container">
+                    <img id="modalImage" src="" alt="Expanded image" />
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+    
+    const modal = document.getElementById('imageModal');
+    const modalImage = document.getElementById('modalImage');
+    const closeBtn = document.querySelector('.image-modal-close');
+    const zoomInBtn = document.querySelector('.zoom-in-btn');
+    const zoomOutBtn = document.querySelector('.zoom-out-btn');
+    const zoomLevel = document.querySelector('.zoom-level');
+    const container = document.querySelector('.image-modal-container');
+    const prevBtn = document.querySelector('.prev-image-btn');
+    const nextBtn = document.querySelector('.next-image-btn');
+    const imageCounter = document.querySelector('.image-counter');
+    
+    let currentZoom = 100;
+    const minZoom = 50;
+    const maxZoom = 300;
+    let currentSectionId = null;
+    let currentImageIndex = 0;
+    
+    // Image placeholder click handler
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.image-placeholder')) {
+            const placeholder = e.target.closest('.image-placeholder');
+            currentSectionId = placeholder.dataset.sectionId;
+            currentImageIndex = 0;
+            
+            // Load the image
+            loadImage();
+            modal.classList.add('active');
+            currentZoom = 100;
+            updateZoom();
+        }
+    });
+    
+    function loadImage() {
+        if (!currentSectionId || !sectionImages[currentSectionId]) return;
+        
+        const images = sectionImages[currentSectionId];
+        const imagePath = images[currentImageIndex];
+        
+        // Load the actual image file
+        modalImage.src = imagePath;
+        
+        // Update counter
+        imageCounter.textContent = `${currentImageIndex + 1} / ${images.length}`;
+        
+        // Update button states
+        prevBtn.disabled = currentImageIndex === 0;
+        nextBtn.disabled = currentImageIndex === images.length - 1;
+    }
+    
+    // Navigation buttons
+    prevBtn.addEventListener('click', () => {
+        if (currentImageIndex > 0) {
+            currentImageIndex--;
+            loadImage();
+            currentZoom = 100;
+            updateZoom();
+        }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        const images = sectionImages[currentSectionId];
+        if (currentImageIndex < images.length - 1) {
+            currentImageIndex++;
+            loadImage();
+            currentZoom = 100;
+            updateZoom();
+        }
+    });
+    
+    // Close modal
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+        currentZoom = 100;
+        updateZoom();
+    });
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            currentZoom = 100;
+            updateZoom();
+        }
+    });
+    
+    // Zoom controls
+    zoomInBtn.addEventListener('click', () => {
+        currentZoom = Math.min(currentZoom + 10, maxZoom);
+        updateZoom();
+    });
+    
+    zoomOutBtn.addEventListener('click', () => {
+        currentZoom = Math.max(currentZoom - 10, minZoom);
+        updateZoom();
+    });
+    
+    // Mouse wheel zoom
+    container.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) {
+            currentZoom = Math.min(currentZoom + 10, maxZoom);
+        } else {
+            currentZoom = Math.max(currentZoom - 10, minZoom);
+        }
+        updateZoom();
+    }, { passive: false });
+    
+    // Drag functionality for zoomed images
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let offsetX = 0;
+    let offsetY = 0;
+    
+    modalImage.addEventListener('mousedown', (e) => {
+        if (currentZoom > 100) {
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            modalImage.style.cursor = 'grabbing';
+        }
+    });
+    
+    const handleMouseMove = (e) => {
+        if (isDragging && currentZoom > 100) {
+            const deltaX = e.clientX - dragStartX;
+            const deltaY = e.clientY - dragStartY;
+            
+            offsetX += deltaX;
+            offsetY += deltaY;
+            
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            
+            updateImagePosition();
+        }
+    };
+    
+    const handleMouseUp = () => {
+        isDragging = false;
+        modalImage.style.cursor = 'grab';
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
+    };
+    
+    modalImage.addEventListener('mousedown', (e) => {
+        if (currentZoom > 100) {
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartY = e.clientY;
+            modalImage.style.cursor = 'grabbing';
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+    });
+    
+    function updateZoom() {
+        modalImage.style.transform = `scale(${currentZoom / 100}) translate(${offsetX}px, ${offsetY}px)`;
+        zoomLevel.textContent = `${currentZoom}%`;
+    }
+    
+    function updateImagePosition() {
+        modalImage.style.transform = `scale(${currentZoom / 100}) translate(${offsetX}px, ${offsetY}px)`;
+    }
+}
+
 // ===== EVENT LISTENERS SETUP =====
 function setupEventListeners() {
     // Menu
@@ -494,6 +722,9 @@ function setupEventListeners() {
 
     // Mouse tracking for thank you page
     setupMouseTracking();
+    
+    // Image modal
+    setupImageModal();
 }
 
 // ===== UTILITY FUNCTIONS =====

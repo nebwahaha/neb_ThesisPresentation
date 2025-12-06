@@ -465,7 +465,9 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 100px 120px 80px 80px;
+    padding: 100px 0 80px 80px;
+    flex-wrap: wrap;
+    align-content: flex-start;
 }
 
 .right-content.scroll-hint-container {
@@ -477,6 +479,7 @@ body {
 .content-box {
     max-width: 100%;
     width: 100%;
+    padding-right: 120px;
 }
 
 /* ===== TYPOGRAPHY - LEFT SIDE ===== */
@@ -734,6 +737,235 @@ body {
     50% {
         transform: translateY(-20px);
     }
+}
+
+/* ===== IMAGE PLACEHOLDER ===== */
+.image-placeholder-container {
+    margin: -120px -40px 30px 0;
+    display: flex;
+    justify-content: flex-end;
+    width: 110%;
+    height: 65vh;
+    padding-right: 40px;
+}
+
+.image-placeholder {
+    width: 40%;
+    height: 120%;
+    background: linear-gradient(135deg, rgba(122, 141, 184, 0.1), rgba(122, 141, 184, 0.05));
+    border: 2px solid var(--accent-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.placeholder-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.placeholder-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(0px);
+}
+
+.placeholder-overlay p {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.image-placeholder:hover {
+    border-color: #b8c5dc;
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(122, 141, 184, 0.3);
+}
+
+.image-placeholder:hover .placeholder-image {
+    filter: brightness(0.7);
+}
+
+.image-placeholder:hover .placeholder-overlay {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+}
+
+.image-placeholder:hover .placeholder-overlay p {
+    opacity: 1;
+}
+
+/* ===== IMAGE MODAL ===== */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.image-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.image-modal-content {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    background: rgba(42, 61, 84, 0.95);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.image-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 32px;
+    cursor: pointer;
+    z-index: 2001;
+    transition: all 0.3s ease;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.image-modal-close:hover {
+    color: var(--accent-color);
+    transform: scale(1.2);
+}
+
+.image-modal-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    z-index: 2001;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 15px;
+    border-radius: 6px;
+    flex-wrap: wrap;
+}
+
+.zoom-in-btn,
+.zoom-out-btn,
+.prev-image-btn,
+.next-image-btn {
+    background: var(--accent-color);
+    border: none;
+    color: var(--primary-bg);
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.zoom-in-btn:hover,
+.zoom-out-btn:hover,
+.prev-image-btn:hover,
+.next-image-btn:hover {
+    background: #b8c5dc;
+    transform: scale(1.1);
+}
+
+.zoom-in-btn:disabled,
+.zoom-out-btn:disabled,
+.prev-image-btn:disabled,
+.next-image-btn:disabled {
+    background: rgba(122, 141, 184, 0.4);
+    cursor: not-allowed;
+    transform: scale(1);
+}
+
+.zoom-level {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 50px;
+    text-align: center;
+}
+
+.image-nav-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 15px;
+}
+
+.image-counter {
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+}
+
+.image-modal-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    position: relative;
+}
+
+.image-modal-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.2s ease;
+    cursor: grab;
+}
+
+.image-modal-container img:active {
+    cursor: grabbing;
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
