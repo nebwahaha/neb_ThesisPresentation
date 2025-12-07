@@ -128,6 +128,10 @@ function createRightContent(section, index) {
             html += `<p>${section.content.text}</p>`;
         }
         
+        if (section.content.hasTable && section.content.tableData) {
+            html += createTableHTML(section.content.tableData);
+        }
+        
         if (section.content.hasImage) {
             html += `
                 <div class="image-placeholder-container">
@@ -169,6 +173,35 @@ function createRightContent(section, index) {
     return div;
 }
 
+// ===== TABLE GENERATION =====
+function createTableHTML(tableData) {
+    if (!tableData || !tableData.headers || !tableData.rows) {
+        return '';
+    }
+
+    let html = '<table class="content-table"><thead><tr>';
+    
+    // Create header row
+    tableData.headers.forEach(header => {
+        html += `<th>${header}</th>`;
+    });
+    
+    html += '</tr></thead><tbody>';
+    
+    // Create data rows
+    tableData.rows.forEach(row => {
+        html += '<tr>';
+        row.forEach(cell => {
+            html += `<td>${cell}</td>`;
+        });
+        html += '</tr>';
+    });
+    
+    html += '</tbody></table>';
+    
+    return html;
+}
+
 function generateNavigation() {
     // Define which sections are main chapters/separators
     const mainSections = ['CHAPTER 1', 'CHAPTER 2', 'LOGICAL DESIGN', 'UML', 'SYSTEM REQUIREMENTS', 'APPENDICES'];
@@ -182,7 +215,7 @@ function generateNavigation() {
                       'ENTITY RELATIONSHIP DIAGRAM', 'DATA DICTIONARY', 'DATABASE SCHEMA'],
         'LOGICAL DESIGN': ['CONTEXT DIAGRAM', 'DATA FLOW DIAGRAM LEVEL 0', 'DATA FLOW DIAGRAM LEVEL 1'],
         'UML': ['USE CASE DIAGRAM', 'SEQUENCE DIAGRAM', 'CLASS DIAGRAM', 'ACTIVITY DIAGRAM', 'STATE DIAGRAM'],
-        'SYSTEM REQUIREMENTS': ['INSTALLATION', 'TRAINING', 'DOCUMENTATION', 'IMPLEMENTATION', 'FEASIBILITY STUDY',
+        'SYSTEM REQUIREMENTS': ['TESTING', 'HARDWARE RESOURCES', 'SOFTWARE RESOURCES', 'INSTALLATION', 'TRAINING', 'DOCUMENTATION', 'IMPLEMENTATION', 'FEASIBILITY STUDY',
                                 'TECHNICAL', 'OPERATIONAL', 'SCHEDULE', 'COST BENEFIT ANALYSIS', 'BENEFITS',
                                 'TANGIBLE BENEFITS', 'INTANGIBLE BENEFITS', 'COMMERCIAL VIABILITY', 'REFERENCES'],
         'APPENDICES': ['PROJECT TIME TABLE', 'GRAPHICAL USER INTERFACES']
@@ -344,7 +377,7 @@ function updateChapterIndicator(currentSectionIndex) {
                       'ENTITY RELATIONSHIP DIAGRAM', 'DATA DICTIONARY', 'DATABASE SCHEMA'],
         'LOGICAL DESIGN': ['LOGICAL DESIGN', 'CONTEXT DIAGRAM', 'DATA FLOW DIAGRAM LEVEL 0', 'DATA FLOW DIAGRAM LEVEL 1'],
         'UML': ['UML', 'USE CASE DIAGRAM', 'SEQUENCE DIAGRAM', 'CLASS DIAGRAM', 'ACTIVITY DIAGRAM', 'STATE DIAGRAM'],
-        'SYSTEM REQUIREMENTS': ['SYSTEM REQUIREMENTS', 'INSTALLATION', 'TRAINING', 'DOCUMENTATION', 'IMPLEMENTATION', 
+        'SYSTEM REQUIREMENTS': ['SYSTEM REQUIREMENTS', 'TESTING', 'HARDWARE RESOURCES', 'SOFTWARE RESOURCES', 'INSTALLATION', 'TRAINING', 'DOCUMENTATION', 'IMPLEMENTATION', 
                                 'FEASIBILITY STUDY', 'TECHNICAL', 'OPERATIONAL', 'SCHEDULE', 'COST BENEFIT ANALYSIS', 
                                 'BENEFITS', 'TANGIBLE BENEFITS', 'INTANGIBLE BENEFITS', 'COMMERCIAL VIABILITY', 'REFERENCES'],
         'APPENDICES': ['APPENDICES', 'PROJECT TIME TABLE', 'GRAPHICAL USER INTERFACES']

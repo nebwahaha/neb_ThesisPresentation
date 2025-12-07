@@ -76,8 +76,19 @@
                 subtitle: 'Research Context',
                 content: {
                     heading: 'Background of the Study',
-                    text: 'Provide the context and background information that led to this research.',
-                    items: []
+                    text: 'Comprehensive analysis of honeypot types and their characteristics across different interaction levels.',
+                    items: [],
+                    hasTable: true,
+                    tableData: {
+                        headers: ['Level of Interaction', 'Low', 'Medium', 'High'],
+                        rows: [
+                            ['Risk', 'Low', 'Low', 'High'],
+                            ['Data Capturing', 'Basic Logs', 'Moderate (Commands, Behavior)', 'Detailed'],
+                            ['Resource Use', 'Low', 'Low', 'Moderate'],
+                            ['Required Knowledge', 'Low(easy to setup)', 'Moderate (Need further knowledge about networks)', 'High (requires expertise in networking and cybersecurity)'],
+                            ['Detection Ease', 'Easy to detect', 'Moderate', 'Hard to detect']
+                        ]
+                    }
                 }
             },
             {
@@ -321,7 +332,16 @@
                 content: {
                     heading: 'Database Schema',
                     text: 'Detailed database schema and table structures.',
-                    items: []
+                    items: [],
+                    hasTable: true,
+                    tableData: {
+                        headers: ['Table Name', 'Column Name', 'Data Type', 'Constraints'],
+                        rows: [
+                            ['', '', '', ''],
+                            ['', '', '', ''],
+                            ['', '', '', '']
+                        ]
+                    }
                 }
             },
             {
@@ -442,6 +462,14 @@
                     hasImage: true
                 }
             },
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
             {
                 id: 'system-requirements',
                 title: 'SYSTEM REQUIREMENTS',
@@ -452,6 +480,58 @@
                     items: []
                 }
             },
+             {
+                id: 'testing',
+                title: 'TESTING',
+                subtitle: 'System Testing and Resources',
+                content: {
+                    heading: 'Testing',
+                    text: 'Comprehensive testing strategy including hardware and software resources.',
+                    items: [
+                        'Hardware Resources',
+                        'Software Resources'
+                    ]
+                }
+            },
+            {
+                id: 'hardware-resources',
+                title: 'HARDWARE RESOURCES',
+                subtitle: 'Hardware Requirements',
+                content: {
+                    heading: 'Hardware Resources',
+                    text: 'Detailed specifications of hardware resources required for the system.',
+                    items: [],
+                    hasTable: true,
+                    tableData: {
+                        headers: ['Component', 'Specification', 'Quantity', 'Cost'],
+                        rows: [
+                            ['', '', '', ''],
+                            ['', '', '', ''],
+                            ['', '', '', '']
+                        ]
+                    }
+                }
+            },
+            {
+                id: 'software-resources',
+                title: 'SOFTWARE RESOURCES',
+                subtitle: 'Software Requirements',
+                content: {
+                    heading: 'Software Resources',
+                    text: 'Comprehensive list of software resources and tools required for the system.',
+                    items: [],
+                    hasTable: true,
+                    tableData: {
+                        headers: ['Software Name', 'Version', 'Purpose', 'License Type'],
+                        rows: [
+                            ['', '', '', ''],
+                            ['', '', '', ''],
+                            ['', '', '', '']
+                        ]
+                    }
+                }
+            },
+
             {
                 id: 'installation',
                 title: 'INSTALLATION',
@@ -589,6 +669,26 @@
                     items: []
                 }
             },
+           
+            {
+                id: 'financial-analysis',
+                title: 'FINANCIAL ANALYSIS',
+                subtitle: 'Cost Breakdown',
+                content: {
+                    heading: 'Financial Analysis',
+                    text: 'Detailed financial analysis including costs, benefits, and ROI projections.',
+                    items: [],
+                    hasTable: true,
+                    tableData: {
+                        headers: ['Item', 'Year 1', 'Year 2', 'Year 3', 'Total'],
+                        rows: [
+                            ['', '', '', '', ''],
+                            ['', '', '', '', ''],
+                            ['', '', '', '', '']
+                        ]
+                    }
+                }
+            },
             {
                 id: 'references',
                 title: 'REFERENCES',
@@ -599,6 +699,14 @@
                     items: []
                 }
             },
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
             {
                 id: 'appendices',
                 title: 'APPENDICES',
