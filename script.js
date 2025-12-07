@@ -132,8 +132,32 @@ function createRightContent(section, index) {
             html += `<p><strong>${section.content.text1}</strong></p>`;
         }
         
+        if (section.content.items && section.content.items.length > 0) {
+            html += '<ul>';
+            section.content.items.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            html += '</ul>';
+        }
+        
         if (section.content.text2) {
             html += `<p>${section.content.text2}</p>`;
+        }
+        
+        if (section.content.text3) {
+            html += `<p><strong>${section.content.text3}</strong></p>`;
+        }
+        
+        if (section.content.items2 && section.content.items2.length > 0) {
+            html += '<ul>';
+            section.content.items2.forEach(item => {
+                html += `<li>${item}</li>`;
+            });
+            html += '</ul>';
+        }
+        
+        if (section.content.text4) {
+            html += `<p>${section.content.text4}</p>`;
         }
         
         if (section.content.hasMultipleTables && section.content.tables) {
@@ -157,14 +181,6 @@ function createRightContent(section, index) {
         
         if (section.content.link) {
             html += `<a href="${section.content.link.url}" target="_blank" class="content-link">${section.content.link.text}</a>`;
-        }
-        
-        if (section.content.items && section.content.items.length > 0) {
-            html += '<ul>';
-            section.content.items.forEach(item => {
-                html += `<li>${item}</li>`;
-            });
-            html += '</ul>';
         }
         
         if (section.content.showThankYou) {
@@ -283,7 +299,7 @@ function generateNavigation() {
     // Define which sections are main chapters/separators
     const mainSections = ['CHAPTER 1', 'CHAPTER 2', 'LOGICAL DESIGN', 'UML', 'SYSTEM REQUIREMENTS', 'APPENDICES'];
     const chapterSubSections = {
-        'CHAPTER 1': ['BACKGROUND OF THE STUDY', 'PIECES FRAMEWORK', 'PERFORMANCE PROBLEMS', 'INFORMATION PROBLEMS', 
+        'CHAPTER 1': ['BACKGROUND OF THE STUDY','BACKGROUND OF THE STUDY(p2)', 'PIECES FRAMEWORK', 'PERFORMANCE PROBLEMS', 'INFORMATION PROBLEMS', 
                       'ECONOMIC PROBLEMS', 'CONTROL PROBLEMS', 'EFFICIENCY PROBLEMS', 'SERVICE PROBLEMS', 
                       'RESEARCH OBJECTIVES', 'GENERAL OBJECTIVES', 'SPECIFIC OBJECTIVES', 'SIGNIFICANCE OF THE STUDY', 
                       'SCOPE AND LIMITATION', 'REVIEW OF RELATED LITERATURE', 'SYNTHESIS', 'CONCEPTUAL FRAMEWORK', 
