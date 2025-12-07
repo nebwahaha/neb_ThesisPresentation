@@ -461,7 +461,7 @@ function updateChapterIndicator(currentSectionIndex) {
     };
     
     // Determine which chapter we're in
-    let chapterName = 'Thesis Presentation'; // Default for title page
+    let chapterName = 'Going beyond passive monitoring: Honeypot framework with integrated attack mitigation'; // Default for title page
     
     for (const [chapter, sections] of Object.entries(chapterRanges)) {
         if (sections.includes(sectionTitle)) {
