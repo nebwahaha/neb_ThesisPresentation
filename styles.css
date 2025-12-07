@@ -471,6 +471,7 @@ body {
     padding: 100px 0 80px 80px;
     flex-wrap: wrap;
     align-content: flex-start;
+    pointer-events: auto;
 }
 
 .right-content.scroll-hint-container {
@@ -483,6 +484,9 @@ body {
     max-width: 100%;
     width: 100%;
     padding-right: 120px;
+    position: relative;
+    z-index: 5;
+    pointer-events: auto;
 }
 
 /*THIS IS FOR THE CONTENT ON THE TITLE LEFT SIDE
@@ -629,6 +633,9 @@ THIS IS FOR THE CONTENT ON THE ITEMS*/
     transition: all var(--transition-speed);
     margin-top: 20px;
     cursor: pointer;
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
 }
 
 .content-link:hover {

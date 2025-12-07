@@ -351,7 +351,9 @@ function updateSections() {
         content.style.transform = `translateY(${offset}vh)`;
         
         const distance = Math.abs(index - sectionProgress);
-        content.style.opacity = Math.max(0, 1 - distance);
+        const opacity = Math.max(0, 1 - distance);
+        content.style.opacity = opacity;
+        content.style.pointerEvents = opacity < 0.5 ? 'none' : 'auto';
     });
 
     // Update right side (scrolls up - opposite direction)
@@ -360,7 +362,9 @@ function updateSections() {
         content.style.transform = `translateY(${offset}vh)`;
         
         const distance = Math.abs(index - sectionProgress);
-        content.style.opacity = Math.max(0, 1 - distance);
+        const opacity = Math.max(0, 1 - distance);
+        content.style.opacity = opacity;
+        content.style.pointerEvents = opacity < 0.5 ? 'none' : 'auto';
     });
 
     // Update progress bar
