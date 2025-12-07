@@ -128,6 +128,14 @@ function createRightContent(section, index) {
             html += `<p>${section.content.text}</p>`;
         }
         
+        if (section.content.text1) {
+            html += `<p><strong>${section.content.text1}</strong></p>`;
+        }
+        
+        if (section.content.text2) {
+            html += `<p>${section.content.text2}</p>`;
+        }
+        
         if (section.content.hasMultipleTables && section.content.tables) {
             html += createMultipleTablesHTML(section.content.tables, section.id);
         } else if (section.content.hasTable && section.content.tableData) {

@@ -1,4 +1,4 @@
-* {
+ * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -403,9 +403,9 @@ body {
     left: 0;
 }
 
-/* Left Side - 1/4 width */
+/* Left Side - 1/5 width */
 .left-side {
-    width: 25%;
+    width: 20%;
     height: 100vh;
     overflow: hidden;
     position: relative;
@@ -413,9 +413,9 @@ body {
     border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Right Side - 3/4 width */
+/* Right Side - 4/5 width */
 .right-side {
-    width: 75%;
+    width: 80%;
     height: 100vh;
     overflow: hidden;
     position: relative;
@@ -458,7 +458,10 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 80px 60px;
+    padding: 80px 30px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .right-content {
@@ -531,11 +534,18 @@ body {
     line-height: 1.6;
 }
 
+.section-text1 {
+    font-size: clamp(20px, 2.2vw, 28px);
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.6;
+}
+
 /* ===== TYPOGRAPHY - RIGHT SIDE ===== */
 .content-box h3 {
-    font-size: clamp(28px, 4vw, 48px);
+    font-size: clamp(26px, 3.6vw, 44px);
     font-weight: 900;
-    margin-bottom: 20px;
+    margin-bottom: 14px;
     letter-spacing: -1px;
     line-height: 1.1;
     color: var(--accent-color);
@@ -543,10 +553,10 @@ body {
 }
 
 .content-box p {
-    font-size: clamp(20px, 2.2vw, 28px);
+    font-size: clamp(19px, 2.1vw, 27px);
     color: var(--text-primary);
-    margin-bottom: 35px;
-    line-height: 1.6;
+    margin-bottom: 20px;
+    line-height: 1.55;
     font-weight: 300;
 }
 
@@ -558,10 +568,10 @@ body {
 .content-box li {
     font-size: clamp(18px, 2vw, 24px);
     color: var(--text-primary);
-    margin-bottom: 20px;
+    margin-bottom: 7px;
     padding-left: 35px;
     position: relative;
-    line-height: 1.5;
+    line-height: 1.45;
     font-weight: 300;
 }
 
@@ -741,7 +751,7 @@ body {
 
 /* ===== IMAGE PLACEHOLDER ===== */
 .image-placeholder-container {
-    margin: -120px -40px 30px 0;
+    margin: -150px -40px 30px 0;
     display: flex;
     justify-content: flex-end;
     width: 110%;
@@ -750,7 +760,7 @@ body {
 }
 
 .image-placeholder {
-    width: 40%;
+    width: 55%;
     height: 120%;
     background: linear-gradient(135deg, rgba(122, 141, 184, 0.1), rgba(122, 141, 184, 0.05));
     border: 2px solid var(--accent-color);
