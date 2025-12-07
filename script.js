@@ -128,7 +128,9 @@ function createRightContent(section, index) {
             html += `<p>${section.content.text}</p>`;
         }
         
-        if (section.content.hasTable && section.content.tableData) {
+        if (section.content.hasMultipleTables && section.content.tables) {
+            html += createMultipleTablesHTML(section.content.tables, section.id);
+        } else if (section.content.hasTable && section.content.tableData) {
             html += createTableHTML(section.content.tableData);
         }
         
@@ -199,6 +201,73 @@ function createTableHTML(tableData) {
     
     html += '</tbody></table>';
     
+    return html;
+}
+
+// ===== MULTIPLE TABLES GENERATION =====
+function createMultipleTablesHTML(tables, sectionId) {
+    if (!tables || tables.length === 0) {
+        return '';
+    }
+
+    let html = `
+        <div class="multi-table-container" data-section-id="${sectionId}">
+            <button class="table-nav-btn table-prev-btn" title="Previous Table">‹</button>
+            <div class="tables-wrapper">
+    `;
+
+    tables.forEach((table, index) => {
+        html += `<div class="table-slide" data-table-index="${index}" style="display: ${index === 0 ? 'block' : 'none'};">`;
+        html += `<h4 class="table-name">${table.name}</h4>`;
+        html += createTableHTML(table.tableData);
+        html += `<div class="table-counter">${index + 1} / ${tables.length}</div>`;
+        html += `</div>`;
+    });
+
+    html += `
+            </div>
+            <button class="table-nav-btn table-next-btn" title="Next Table">›</button>
+        </div>
+    `;
+
+    // Add event listeners after rendering
+    setTimeout(() => {
+        const container = document.querySelector(`[data-section-id="${sectionId}"]`);
+        if (container) {
+            const prevBtn = container.querySelector('.table-prev-btn');
+            const nextBtn = container.querySelector('.table-next-btn');
+            const counter = container.querySelector('.table-counter');
+            const slides = container.querySelectorAll('.table-slide');
+            let currentIndex = 0;
+
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateTableDisplay();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < slides.length - 1) {
+                    currentIndex++;
+                    updateTableDisplay();
+                }
+            });
+
+            function updateTableDisplay() {
+                slides.forEach((slide, index) => {
+                    slide.style.display = index === currentIndex ? 'block' : 'none';
+                });
+                counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+                prevBtn.disabled = currentIndex === 0;
+                nextBtn.disabled = currentIndex === slides.length - 1;
+            }
+
+            // Initialize button states
+            updateTableDisplay();
+        }
+    }, 0);
+
     return html;
 }
 

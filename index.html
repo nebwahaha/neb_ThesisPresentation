@@ -322,7 +322,43 @@
                 content: {
                     heading: 'Data Dictionary',
                     text: 'Comprehensive definitions of all data elements in the system.',
-                    items: []
+                    items: [],
+                    hasMultipleTables: true,
+                    tables: [
+                        {
+                            name: 'Table 1',
+                            tableData: {
+                                headers: ['Field Name', 'Data Type', 'Description', 'Constraints'],
+                                rows: [
+                                    ['', '', '', ''],
+                                    ['', '', '', ''],
+                                    ['', '', '', '']
+                                ]
+                            }
+                        },
+                        {
+                            name: 'Table 2',
+                            tableData: {
+                                headers: ['Field Name', 'Data Type', 'Description', 'Constraints'],
+                                rows: [
+                                    ['', '', '', ''],
+                                    ['', '', '', ''],
+                                    ['', '', '', '']
+                                ]
+                            }
+                        },
+                        {
+                            name: 'Table 3',
+                            tableData: {
+                                headers: ['Field Name', 'Data Type', 'Description', 'Constraints'],
+                                rows: [
+                                    ['', '', '', ''],
+                                    ['', '', '', ''],
+                                    ['', '', '', '']
+                                ]
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -333,15 +369,42 @@
                     heading: 'Database Schema',
                     text: 'Detailed database schema and table structures.',
                     items: [],
-                    hasTable: true,
-                    tableData: {
-                        headers: ['Table Name', 'Column Name', 'Data Type', 'Constraints'],
-                        rows: [
-                            ['', '', '', ''],
-                            ['', '', '', ''],
-                            ['', '', '', '']
-                        ]
-                    }
+                    hasMultipleTables: true,
+                    tables: [
+                        {
+                            name: 'Table 1',
+                            tableData: {
+                                headers: ['Table Name', 'Column Name', 'Data Type', 'Constraints'],
+                                rows: [
+                                    ['', '', '', ''],
+                                    ['', '', '', ''],
+                                    ['', '', '', '']
+                                ]
+                            }
+                        },
+                        {
+                            name: 'Table 2',
+                            tableData: {
+                                headers: ['Table Name', 'Column Name', 'Data Type', 'Constraints'],
+                                rows: [
+                                    ['', '', '', ''],
+                                    ['', '', '', ''],
+                                    ['', '', '', '']
+                                ]
+                            }
+                        },
+                        {
+                            name: 'Table 3',
+                            tableData: {
+                                headers: ['Table Name', 'Column Name', 'Data Type', 'Constraints'],
+                                rows: [
+                                    ['', '', '', ''],
+                                    ['', '', '', ''],
+                                    ['', '', '', '']
+                                ]
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -522,11 +585,11 @@
                     items: [],
                     hasTable: true,
                     tableData: {
-                        headers: ['Software Name', 'Version', 'Purpose', 'License Type'],
+                        headers: ['Software Name', 'Version', 'Purpose'],
                         rows: [
-                            ['', '', '', ''],
-                            ['', '', '', ''],
-                            ['', '', '', '']
+                            ['', '', ''],
+                            ['', '', ''],
+                            ['', '', '']
                         ]
                     }
                 }
